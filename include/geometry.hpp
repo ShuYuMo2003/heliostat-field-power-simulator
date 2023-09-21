@@ -22,13 +22,25 @@ struct Vec3d{
         return Vec3d(x - rhs.x, y - rhs.y, z - rhs.z);
     }
 
+    db operator * (const Vec3d & rhs) const {
+        return (x * rhs.x + y * rhs.y + z * rhs.z);
+    }
+
     void unitized() {
         db len = sqrt(x * x + y * y + z * z);
         x /= len;
         y /= len;
         z /= len;
     }
+
+    db length() { return sqrt(x * x + y * y + z * z); }
 };
+
+Vec3d cross(const Vec3d & lhs, const Vec3d & rhs) {
+    return Vec3d(lhs.y * rhs.z - lhs.z * rhs.y,
+                 lhs.z * rhs.x - lhs.x * rhs.z,
+                 lhs.x * rhs.y - lhs.y * rhs.x);
+}
 
 Vec3d operator * (db val, const Vec3d & rhs) {
     return Vec3d(rhs.x * val, rhs.y * val, rhs.z * val);
@@ -52,6 +64,11 @@ struct Matrix33{
         m[2] = c;
     }
     Vec3d & operator[](const int & idx) { return m[idx]; }
+    Matrix33 T() const {
+        return Matrix33(Vec3d(m[0].x, m[1].x, m[2].x),
+                        Vec3d(m[0].y, m[1].y, m[2].y),
+                        Vec3d(m[0].z, m[1].z, m[2].z));
+    }
 };
 
 Vec3d operator * (Matrix33 mat, Vec3d vec) {
