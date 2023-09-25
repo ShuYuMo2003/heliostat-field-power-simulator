@@ -33,7 +33,7 @@ struct Vec3d{
         z /= len;
     }
 
-    db length() { return sqrt(x * x + y * y + z * z); }
+    db length() const { return sqrt(x * x + y * y + z * z); }
 };
 
 Vec3d cross(const Vec3d & lhs, const Vec3d & rhs) {
